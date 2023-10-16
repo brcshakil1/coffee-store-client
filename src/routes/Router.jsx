@@ -4,6 +4,7 @@ import Home from "../components/Home/Home";
 import UpdateCoffee from "../components/UpdateCoffee/UpdateCoffee";
 import SignIn from "../components/SignIn/SignIn";
 import SignUp from "../components/SignUp/SignUp";
+import Users from "../components/Users/Users";
 
 const Router = createBrowserRouter([
   {
@@ -13,21 +14,34 @@ const Router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch("http://localhost:5000/coffee"),
+        loader: () =>
+          fetch(
+            "https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/coffee"
+          ),
       },
       {
         path: "/updateCoffee/:id",
         element: <UpdateCoffee />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/coffee/${params.id}`),
+          fetch(
+            `https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/coffee/${params.id}`
+          ),
       },
       {
-        path: "signIn",
+        path: "/signIn",
         element: <SignIn />,
       },
       {
-        path: "signUp",
+        path: "/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
+        loader: () =>
+          fetch(
+            `https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/user`
+          ),
       },
     ],
   },

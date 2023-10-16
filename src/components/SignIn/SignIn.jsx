@@ -1,12 +1,45 @@
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
+
 const SignIn = () => {
+  const { loginUser } = useContext(AuthContext);
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const pass = form.password.value;
+    console.log(email, pass);
+    loginUser(email, pass)
+      .then((result) => {
+        console.log(result.user);
+        const user = {
+          email,
+          loggedInAt: result.user.metadata.lastSignInTime,
+        };
+        fetch(
+          "https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/user",
+          {
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(user),
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+      })
+      .catch((err) => console.log(err.message));
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
+          <h1 className="text-5xl font-bold">Sign In!</h1>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form className="card-body">
+          <form onSubmit={handleSignIn} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -14,6 +47,7 @@ const SignIn = () => {
               <input
                 type="email"
                 placeholder="email"
+                name="email"
                 className="input input-bordered"
                 required
               />
@@ -25,6 +59,7 @@ const SignIn = () => {
               <input
                 type="password"
                 placeholder="password"
+                name="password"
                 className="input input-bordered"
                 required
               />

@@ -15,14 +15,19 @@ const SignUp = () => {
         const createdAt = result.user.metadata.creationTime;
         const user = { email, createdAt };
 
-        fetch("http://localhost:5000/user", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(user),
-        })
+        fetch(
+          "https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/user",
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(user),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            if (data.insertedId) {
+              console.log("user created");
+            }
           });
       })
       .catch((err) => console.log(err.message));
@@ -31,7 +36,7 @@ const SignUp = () => {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
+          <h1 className="text-5xl font-bold">Sign Up!</h1>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleCreateUser} className="card-body">

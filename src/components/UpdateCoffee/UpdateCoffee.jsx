@@ -32,11 +32,14 @@ const UpdateCoffee = () => {
 
     console.log(newCoffee);
     // send data to the server
-    fetch(`http://localhost:5000/coffee/${_id}`, {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newCoffee),
-    })
+    fetch(
+      `https://coffee-store-server-30tkmc8a4-brcshakil.vercel.app/coffee/${_id}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newCoffee),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
